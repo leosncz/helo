@@ -24,7 +24,7 @@
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
-      font-family: 'Montserrat', sans-serif; 
+      font-family: 'Montserrat', sans-serif;
     }
 
     .header {
@@ -67,7 +67,18 @@
       align-items: center;
       text-align: center;
       scroll-snap-align: start;
-      padding-top: 80px; /* Décalage pour ne pas être masqué par le header */
+      padding-top: 80px; /* pour compenser le header fixe */
+    }
+
+    .portrait-0 {
+      align-items: flex-start;
+      padding-top: 90px; /* 80px de header + 10px de décalage */
+    }
+
+    .portrait-0 > div {
+      margin: 0 auto;
+      max-width: 800px;
+      text-align: center;
     }
 
     .title {
@@ -109,7 +120,7 @@
   </div>
   
   <section class="section portrait-0">
-    <div style="max-width: 800px; padding: 20px;">
+    <div style="padding: 20px; padding-top: 110px;">
       <h1 class="title">L'idée</h1>
       <p style="font-family: Arial;">
         À travers ces portraits, je cherche à faire entendre autre chose que les récits trop lisses ou trop calibrés liés au format d'un réseau social ou d'un CV.<br><br>
