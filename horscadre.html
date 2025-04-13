@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hors-Cadre - Portraits Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .header {
+      position: fixed;
+      top: 10;
+      left: 0;
+      width: 100%;
+      background-color: #000;
+      padding: 20px 0 10px;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle-big {
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      text-transform: uppercase;
+      letter-spacing: 25px;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo {
+      height: 0px;
+      width: auto;
+    }
+
+    .section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      scroll-snap-align: start;
+      padding-top: 150px; /* espace suffisant sous le header */
+      position: relative;
+    }
+
+    .title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .portrait-img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border: 2px solid #fff;
+      margin-bottom: 1rem;
+    }
+
+    .portrait-1, .portrait-2, .portrait-3 {
+      background-color: #000;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      font-size: 1rem;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 class="subtitle-big">Hors-Cadre</h2>
+    <h2 class="subtitle">Série de Portraits Pro</h2>
+    <img src="https://i.postimg.cc/dDcvz0dg/image.png" alt="Logo Hors-Cadre" class="logo">
+  </div>
+
+  <section class="section portrait-1">
+    <h1 class="title">Karim Ezzat</h1>
+    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=60&w=3000" alt="Portrait 1" class="portrait-img" />
+    <div class="scroll-indicator">▼ Scroll to discover</div>
+  </section>
+
+  <section class="section portrait-2">
+    <h1 class="title">Lina Mourad</h1>
+    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=60&w=3000" alt="Portrait 2" class="portrait-img" />
+  </section>
+
+  <section class="section portrait-3">
+    <h1 class="title">Sami Nader</h1>
+    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=60&w=3000" alt="Portrait 3" class="portrait-img" />
+  </section>
+</body>
+</html>
+
