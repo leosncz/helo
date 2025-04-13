@@ -15,6 +15,7 @@
     html, body {
       height: 100%;
       overflow: hidden;
+      scroll-padding-top: 100px; /* Pour éviter que le scroll ne masque le haut */
     }
 
     body {
@@ -28,9 +29,10 @@
 
     .header {
       position: fixed;
-      top: 10;
+      top: 0; /* Correction ici */
       left: 0;
       width: 100%;
+      height: 80px; /* Hauteur explicite */
       background-color: #000;
       padding: 20px 0 10px;
       text-align: center;
@@ -45,7 +47,7 @@
       letter-spacing: 3px;
       margin-bottom: 0.5rem;
     }
-    
+
     .subtitle-big {
       font-family: 'Cinzel', serif;
       font-size: 3rem;
@@ -68,7 +70,10 @@
       text-align: center;
       scroll-snap-align: start;
       position: relative;
-      padding-top: 50px;
+    }
+
+    .portrait-0 {
+      padding-top: 100px; /* Pour éviter d’être masqué par le header */
     }
 
     .title {
@@ -109,14 +114,14 @@
     <img src="https://i.postimg.cc/dDcvz0dg/image.png" alt="Logo Hors-Cadre" class="logo">
   </div>
   
-  <section  class="section portrait-0">
-      <div style="padding: 20px;">
-          <h1 class="title">L'idée</h1>
-          <p style="font-family: Arial;">
-            À travers ces portraits, je cherche à faire entendre autre chose que les récits trop lisses ou trop calibrés liés au format d'un réseau social ou d'un CV.<br><br>
-            Ce que je veux mettre en lumière, c’est une personne dans son rôle, dans ce qu’elle incarne au quotidien — loin des discours formatés.<br><br>
-            C’est une forme de reconnaissance, un espace pour se dire autrement. Et, je l’espère, un éclairage juste sur ce qui fait vraiment la richesse d’un métier : la personne qui le porte.
-          </p>
+  <section class="section portrait-0">
+    <div style="padding: 20px;">
+      <h1 class="title">L'idée</h1>
+      <p style="font-family: Arial;">
+        À travers ces portraits, je cherche à faire entendre autre chose que les récits trop lisses ou trop calibrés liés au format d'un réseau social ou d'un CV.<br><br>
+        Ce que je veux mettre en lumière, c’est une personne dans son rôle, dans ce qu’elle incarne au quotidien — loin des discours formatés.<br><br>
+        C’est une forme de reconnaissance, un espace pour se dire autrement. Et, je l’espère, un éclairage juste sur ce qui fait vraiment la richesse d’un métier : la personne qui le porte.
+      </p>
     </div>
     <div class="scroll-indicator">▼ Scroll to discover</div>
   </section>
