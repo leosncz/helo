@@ -5,31 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maquette - Hors Cadre</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-color: #f5f1e9; /* Blanc cassé */
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
             color: #8b6f47; /* Marron clair */
+            line-height: 1.6;
+            padding: 10px;
         }
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
+            padding: 0 10px;
         }
         /* Header */
         header {
             padding: 10px;
             border: 2px solid #8b6f47;
             background-color: #fffaf5;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-radius: 10px;
             text-align: center;
+        }
+        header nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         header nav a {
             color: #8b6f47;
             text-decoration: none;
-            margin: 0 15px;
-            font-size: 16px;
+            font-size: 14px;
+            padding: 5px 10px;
         }
         header nav a:hover {
             text-decoration: underline;
@@ -37,31 +49,30 @@
         /* Première section avec animation */
         .header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             border: 2px solid #8b6f47;
             background-color: #fffaf5;
-            margin-bottom: 20px;
-            gap: 40px;
+            margin-bottom: 15px;
+            gap: 20px;
             border-radius: 10px;
-            position: relative;
+            text-align: center;
         }
         .header img {
-            width: 150px;
-            height: 225px;
+            width: 120px;
+            height: 180px;
             object-fit: cover;
             border-radius: 8px;
-            position: relative;
             animation: slideLeft 1s ease-in-out forwards;
         }
         .header .text {
-            flex: 1;
             opacity: 0;
             animation: fadeIn 1s ease-in-out 0.5s forwards;
         }
         .header h1 {
             margin: 0;
-            font-size: 42px;
+            font-size: 28px;
         }
         .header h1 span {
             display: inline-block;
@@ -70,12 +81,12 @@
         }
         .header p {
             margin: 5px 0 0;
-            font-size: 26px;
+            font-size: 18px;
         }
         /* Animations */
         @keyframes slideLeft {
             0% {
-                transform: translateX(calc(50vw - 50% - 150px));
+                transform: translateX(0);
             }
             100% {
                 transform: translateX(0);
@@ -91,46 +102,43 @@
         }
         /* Deuxième section */
         .portraits {
-            margin: 20px 0;
-            padding: 20px;
+            margin: 15px 0;
+            padding: 15px;
             border: 2px solid #8b6f47;
             background-color: #fffaf5;
-            display: flex;
-            align-items: center;
             border-radius: 10px;
+            text-align: center;
         }
         .portraits .portrait-images {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
+            margin-bottom: 15px;
         }
         .portraits .portrait-images h3 {
             margin: 0 0 10px;
-            text-align: center;
+            font-size: 20px;
         }
         .portraits img {
-            width: 80px;
-            height: 120px;
+            width: 70px;
+            height: 105px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin: 0 5px;
         }
         .portraits .text {
-            flex: 1;
+            font-size: 14px;
         }
         /* Troisième section - Carrousel */
         .carousel-container {
-            margin: 20px 0;
-            padding: 20px;
+            margin: 15px 0;
+            padding: 15px;
             border: 2px solid #8b6f47;
             background-color: #fffaf5;
-            position: relative;
             border-radius: 10px;
+            position: relative;
         }
         .carousel {
             display: flex;
-            overflow-x: hidden;
+            overflow-x: auto;
+            scroll-behavior: smooth;
         }
         .carousel-slide {
             display: flex;
@@ -143,8 +151,9 @@
             padding: 10px;
             width: 30%;
             text-align: center;
-            margin: 0 10px;
+            margin: 0 5px;
             border-radius: 8px;
+            flex: 0 0 auto;
         }
         .card img {
             width: 50px;
@@ -154,6 +163,7 @@
         }
         .card p {
             margin: 5px 0;
+            font-size: 12px;
         }
         .carousel-btn {
             position: absolute;
@@ -162,19 +172,20 @@
             background-color: #8b6f47;
             color: #fffaf5;
             border: none;
-            padding: 10px;
+            padding: 8px;
             cursor: pointer;
             border-radius: 5px;
+            z-index: 10;
         }
         .prev-btn {
-            left: 10px;
+            left: 5px;
         }
         .next-btn {
-            right: 10px;
+            right: 5px;
         }
         /* Footer */
         footer {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 10px;
             border: 2px solid #8b6f47;
             background-color: #fffaf5;
@@ -183,7 +194,101 @@
         }
         footer p {
             margin: 0;
-            font-size: 14px;
+            font-size: 12px;
+        }
+        /* Responsivité */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                padding: 0 20px;
+            }
+            header nav {
+                flex-wrap: nowrap;
+                gap: 20px;
+            }
+            header nav a {
+                font-size: 16px;
+                padding: 5px 15px;
+            }
+            .header {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+            }
+            .header img {
+                width: 150px;
+                height: 225px;
+            }
+            .header h1 {
+                font-size: 42px;
+            }
+            .header p {
+                font-size: 26px;
+            }
+            .portraits {
+                display: flex;
+                align-items: center;
+                text-align: left;
+            }
+            .portraits .portrait-images {
+                margin-right: 20px;
+                margin-bottom: 0;
+            }
+            .portraits img {
+                width: 80px;
+                height: 120px;
+            }
+            .portraits .text {
+                font-size: 16px;
+            }
+            .carousel {
+                overflow-x: hidden;
+            }
+            .carousel-slide {
+                min-width: 100%;
+            }
+            .card {
+                width: 30%;
+                margin: 0 10px;
+            }
+            .card p {
+                font-size: 14px;
+            }
+            footer p {
+                font-size: 14px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+            }
+            .header img {
+                width: 200px;
+                height: 300px;
+            }
+            .header h1 {
+                font-size: 48px;
+            }
+            .header p {
+                font-size: 30px;
+            }
+            .portraits img {
+                width: 100px;
+                height: 150px;
+            }
+            .portraits .text {
+                font-size: 18px;
+            }
+            .card {
+                width: 25%;
+            }
+            .card img {
+                width: 60px;
+                height: 60px;
+            }
+            .card p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -210,7 +315,7 @@
         <div class="portraits">
             <div class="portrait-images">
                 <h3>Pourquoi HORS-CADRE</h3>
-                <div style="display: flex;">
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
                     <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg" alt="Portrait 1">
                     <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg" alt="Portrait 2">
                     <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg" alt="Portrait 3">
