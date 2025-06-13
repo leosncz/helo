@@ -29,7 +29,6 @@
         .carousel-slide {
             display: flex;
             flex-shrink: 0;
-            transition: transform 0.7s ease;
         }
         #nav-menu {
             display: flex;
@@ -63,6 +62,7 @@
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
             const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [cardsPerSlide, setCardsPerSlide] = useState(() => window.innerWidth >= 1024 ? 4 : window.innerWidth >= 640 ? 3 : 2);
             const carouselRef = useRef(null);
 
             const cards = [
@@ -78,7 +78,6 @@
             ];
 
             const getCardsPerSlide = () => window.innerWidth >= 1024 ? 4 : window.innerWidth >= 640 ? 3 : 2;
-            const [cardsPerSlide, setCardsPerSlide] = useState(getCardsPerSlide());
             const totalSlides = Math.ceil(cards.length / cardsPerSlide);
 
             const nextSlide = () => {
@@ -89,18 +88,28 @@
                 setCurrentSlide((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
             };
 
+            // Debounce function to limit resize event frequency
+            const debounce = (func, wait) => {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), wait);
+                };
+            };
+
             useEffect(() => {
                 gsap.from("#header-img", { x: -100, opacity: 0, duration: 1.2, ease: "power3.out" });
                 gsap.from("#header-text", { opacity: 0, y: 50, duration: 1.2, delay: 0.3, ease: "power3.out" });
                 gsap.from(".portrait-images img", { opacity: 0, y: 30, stagger: 0.2, duration: 1, delay: 0.5, ease: "power2.out" });
 
-                const handleResize = () => {
+                const handleResize = debounce(() => {
                     const newCardsPerSlide = getCardsPerSlide();
                     if (newCardsPerSlide !== cardsPerSlide) {
                         setCardsPerSlide(newCardsPerSlide);
-                        setCurrentSlide(0);
+                        setCurrentSlide(0); // Reset to first slide
                     }
-                };
+                }, 100);
+
                 window.addEventListener('resize', handleResize);
                 return () => window.removeEventListener('resize', handleResize);
             }, [cardsPerSlide]);
