@@ -23,7 +23,13 @@
             background: linear-gradient(135deg, #F5F1E9 0%, #FFF8F0 100%);
         }
         .carousel {
-            transition: transform 0.5s ease;
+            display: flex;
+            width: 100%;
+        }
+        .carousel-slide {
+            display: flex;
+            flex-shrink: 0;
+            transition: transform 0.7s ease;
         }
         #nav-menu {
             display: flex;
@@ -52,11 +58,12 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
 
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
             const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const carouselRef = useRef(null);
 
             const cards = [
                 { name: "Karim", role: "Event Manager", img: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg" },
@@ -99,29 +106,36 @@
             }, [cardsPerSlide]);
 
             useEffect(() => {
-                gsap.to('.carousel', { xPercent: -currentSlide * 100, duration: 0.7, ease: "power3.out" });
-            }, [currentSlide]);
+                if (carouselRef.current) {
+                    const slideWidth = 100 / cardsPerSlide;
+                    gsap.to(carouselRef.current, {
+                        x: `-${currentSlide * slideWidth * cardsPerSlide}%`,
+                        duration: 0.7,
+                        ease: "power3.out"
+                    });
+                }
+            }, [currentSlide, cardsPerSlide]);
 
             return (
-                <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div>
                     {/* Header */}
-                    <header className="py-6 bg-[#FFF8F0] shadow-2xl rounded-xl mb-8 relative gradient-bg">
-                        <div className="flex items-center justify-between px-4 sm:px-8">
-                            <div className="flex items-center gap-4">
+                    <header className="w-full bg-[#FFF8F0] shadow-2xl py-6 gradient-bg mb-6 lg:mb-8">
+                        <div className="flex items-center justify-start sm:justify-center px-4 sm:px-8 max-w-7xl mx-auto">
+                            <div className="flex items-center gap-4 sm:hidden">
                                 <button
                                     id="hamburger-menu"
-                                    className="sm:hidden text-[#8B6F47] text-3xl focus:outline-none"
+                                    className="text-[#8B6F47] text-3xl focus:outline-none"
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 >
                                     ☰
                                 </button>
-                                <h1 className="sm:hidden text-2xl font-extrabold text-[#8B6F47]">
+                                <h1 className="text-2xl font-extrabold text-[#8B6F47]">
                                     HORS <span className="rotate-span">-</span> CADRE
                                 </h1>
                             </div>
                             <nav
                                 id="nav-menu"
-                                className={`flex justify-center flex-wrap gap-8 sm:gap-12 lg:gap-10 ${isMenuOpen ? 'active' : ''}`}
+                                className={`hidden sm:flex justify-center flex-wrap gap-8 sm:gap-12 lg:gap-10 ${isMenuOpen ? 'active' : ''}`}
                             >
                                 <a href="#accueil" className="text-lg font-bold text-[#8B6F47] hover:text-[#6B4F27] transition-colors">
                                     ACCUEIL
@@ -139,120 +153,125 @@
                         </div>
                     </header>
 
-                    {/* Première section */}
-                    <section className="header flex flex-col lg:flex-row items-center bg-[#FFF8F0] shadow-2xl rounded-xl p-6 lg:p-10 mb-8 gap-6 lg:gap-12 gradient-bg">
-                        <div className="relative">
-                            <img
-                                src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg"
-                                alt="Portrait"
-                                className="w-48 h-72 lg:w-72 lg:h-96 object-cover rounded-2xl shadow-xl"
-                                id="header-img"
-                            />
-                            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#8B6F47]/20 rounded-full blur-2xl"></div>
-                        </div>
-                        <div className="text-center lg:text-left flex-1" id="header-text">
-                            <h1 className="text-4xl lg:text-6xl font-extrabold text-[#8B6F47] leading-tight">
-                                HORS <span className="rotate-span">-</span> CADRE
-                            </h1>
-                            <p className="mt-4 text-lg lg:text-2xl text-gray-600 font-medium">
-                                Le plus important ne tient pas sur un CV
-                            </p>
-                            <p className="mt-3 text-sm lg:text-base text-gray-500">
-                                Découvrez des talents uniques qui transcendent les qualifications traditionnelles.
-                            </p>
-                            <button className="mt-4 px-5 py-2 bg-[#8B6F47] text-white font-semibold rounded-lg hover:bg-[#6B4F27] transition-all">
-                                En savoir plus
-                            </button>
-                        </div>
-                    </section>
-
-                    {/* Deuxième section */}
-                    <section className="portraits bg-white shadow-lg rounded-xl p-6 lg:p-10 mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 gradient">
-                        <div className="portrait-images text-center lg:text-left">
-                            <h3 className="text-2xl lg:text-3xl font-bold text-[#8B6F47] mb-4">Pourquoi HORS-CADRE</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {/* Main Content */}
+                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        {/* Première section */}
+                        <section className="header flex flex-col lg:flex-row items-center bg-[#FFF8F0] shadow-2xl rounded-xl p-6 lg:p-10 mb-8 gap-6 lg:gap-12 gradient-bg">
+                            <div className="relative">
                                 <img
-                                    src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg"
-                                    alt="Portrait 1"
-                                    className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+                                    src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+                                    alt="Portrait"
+                                    className="w-48 h-72 lg:w-72 lg:h-96 object-cover rounded-2xl shadow-xl"
+                                    id="header-img"
                                 />
-                                <img
-                                    src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg"
-                                    alt="Portrait 2"
-                                    className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
-                                />
-                                <img
-                                    src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg"
-                                    alt="Portrait 3"
-                                    className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
-                                />
+                                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#8B6F47]/20 rounded-full blur-2xl"></div>
                             </div>
-                        </div>
-                        <div className="text-gray-600 text-sm lg:text-base flex flex-col justify-center">
-                            <p className="mb-3 pt-6 lg:pt-8">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                            <p>
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            </p>
-                            <div className="mt-4 flex gap-4">
-                                <div className="text-center">
-                                    <p className="text-xl font-bold text-[#8B6F47]">100+</p>
-                                    <p className="text-xs text-gray-500">Talents découverts</p>
-                                </div>
-                                <div className="text-center">
-                                    <p className="text-xl font-bold text-[#8B6F47]">50+</p>
-                                    <p className="text-xs text-gray-500">Projets réalisés</p>
+                            <div className="text-center lg:text-left flex-1" id="header-text">
+                                <h1 className="text-4xl lg:text-6xl font-extrabold text-[#6B4F27] leading-tight">
+                                    HORS <span className="rotate-span">-</span> CADRE
+                                </h1>
+                                <p className="mt-4 text-lg lg:text-2xl text-gray-800 font-medium">
+                                    Le plus important ne tient pas sur un CV
+                                </p>
+                                <p className="mt-3 text-sm lg:text-base text-gray-700">
+                                    Découvrez des talents uniques qui transcendent les qualifications traditionnelles.
+                                </p>
+                                <button className="mt-4 px-5 py-2 bg-[#6B4F27] text-white font-semibold rounded-lg hover:bg-[#5A4222] transition-all">
+                                    En savoir plus
+                                </button>
+                            </div>
+                        </section>
+
+                        {/* Deuxième section */}
+                        <section className="portraits bg-white shadow-lg rounded-xl p-6 lg:p-10 mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 gradient">
+                            <div className="portrait-images text-center lg:text-left">
+                                <h3 className="text-2xl lg:text-3xl font-bold text-[#8B6F47] mb-4">Pourquoi HORS-CADRE</h3>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    <img
+                                        src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg"
+                                        alt="Portrait 1"
+                                        className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+                                    />
+                                    <img
+                                        src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg"
+                                        alt="Portrait 2"
+                                        className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+                                    />
+                                    <img
+                                        src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg"
+                                        alt="Portrait 3"
+                                        className="w-full h-40 sm:h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+                                    />
                                 </div>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* Troisième section - Carrousel */}
-                    <section className="carousel-container relative bg-[#FFF8F0] shadow-2xl rounded-xl p-6 lg:p-10 mb-8 gradient-bg">
-                        <button
-                            className="carousel-btn prev-btn absolute top-1/2 left-4 transform -translate-y-1/2 bg-[#8B6F47] text-white px-4 py-2 rounded-full hover:bg-[#6B4F27] transition-colors z-10 text-lg"
-                            onClick={prevSlide}
-                        >
-                            ◄
-                        </button>
-                        <div className="carousel overflow-hidden">
-                            <div className="carousel-slide flex">
-                                {cards.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className="card w-1/2 sm:w-1/3 lg:w-1/4 p-4 text-center mx-2 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all"
-                                    >
-                                        <img
-                                            src={card.img}
-                                            alt={`Photo ${card.name}`}
-                                            className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-full mx-auto border-2 border-[#8B6F47]"
-                                        />
-                                        <p className="mt-2 font-bold text-[#8B6F47]">{card.name}</p>
-                                        <p className="text-xs text-gray-500">{card.role}</p>
+                            <div className="text-gray-600 text-sm lg:text-base flex flex-col justify-center">
+                                <p className="mb-3 pt-6 lg:pt-8">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                                <p>
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                </p>
+                                <div className="mt-4 flex gap-4">
+                                    <div className="text-center">
+                                        <p className="text-xl font-bold text-[#8B6F47]">100+</p>
+                                        <p className="text-xs text-gray-500">Talents découverts</p>
                                     </div>
-                                ))}
+                                    <div className="text-center">
+                                        <p className="text-xl font-bold text-[#8B6F47]">50+</p>
+                                        <p className="text-xs text-gray-500">Projets réalisés</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <button
-                            className="carousel-btn next-btn absolute top-1/2 right-4 transform -translate-y-1/2 bg-[#8B6F47] text-white px-4 py-2 rounded-full hover:bg-[#6B4F27] transition-colors z-10 text-lg"
-                            onClick={nextSlide}
-                        >
-                            ►
-                        </button>
-                    </section>
+                        </section>
 
-                    {/* Footer */}
-                    <footer className="py-6 bg-[#FFF8F0] shadow-2xl rounded-xl text-center gradient-bg">
-                        <p className="text-sm text-gray-500">© 2025 Hors-Cadre. Tous droits réservés.</p>
-                        <div className="mt-3 flex justify-center gap-6">
-                            <a href="#" className="text-[#8B6F47] hover:text-[#6B4F27] text-sm">Instagram</a>
-                            <a href="#" className="text-[#8B6F47] hover:text-[#6B4F27] text-sm">LinkedIn</a>
-                        </div>
-                    </footer>
+                        {/* Troisième section - Carrousel */}
+                        <section className="carousel-container relative bg-[#FFF8F0] shadow-2xl rounded-xl p-6 lg:p-10 mb-8 gradient-bg">
+                            <button
+                                className="carousel-btn prev-btn absolute top-1/2 left-4 transform -translate-y-1/2 bg-[#8B6F47] text-white px-4 py-2 rounded-full hover:bg-[#6B4F27] transition-colors z-10 text-lg"
+                                onClick={prevSlide}
+                            >
+                                ◄
+                            </button>
+                            <div className="carousel overflow-hidden">
+                                <div className="carousel-slide" ref={carouselRef}>
+                                    {cards.map((card, index) => (
+                                        <div
+                                            key={index}
+                                            className={`card w-1/2 sm:w-1/3 lg:w-1/4 p-4 text-center mx-2 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all`}
+                                        >
+                                            <img
+                                                src={card.img}
+                                                alt={`Photo ${card.name}`}
+                                                className="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-full mx-auto border-2 border-[#8B6F47]"
+                                            />
+                                            <p className="mt-2 font-bold text-[#8B6F47]">{card.name}</p>
+                                            <p className="text-xs text-gray-500">{card.role}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <button
+                                className="carousel-btn next-btn absolute top-1/2 right-4 transform -translate-y-1/2 bg-[#8B6F47] text-white px-4 py-2 rounded-full hover:bg-[#6B4F27] transition-colors z-10 text-lg"
+                                onClick={nextSlide}
+                            >
+                                ►
+                            </button>
+                        </section>
+
+                        {/* Footer */}
+                        <footer className="py-6 bg-[#FFF8F0] shadow-2xl rounded-xl text-center gradient-bg">
+                            <p className="text-sm text-gray-500">© 2025 Hors-Cadre. Tous droits réservés.</p>
+                            <div className="mt-3 flex justify-center gap-6">
+                                <a href="#" className="text-[#8B6F47] hover:text-[#6B4F27] text-sm">Instagram</a>
+                                <a href="#" className="text-[#8B6F47] hover:text-[#6B4F27] text-sm">LinkedIn</a>
+                            </div>
+                        </footer>
+                    </div>
                 </div>
             );
         };
 
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
+</body>
+</html>
